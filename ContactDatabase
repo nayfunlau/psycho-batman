@@ -1,0 +1,199 @@
+import datetime
+import math
+import time
+from datetime import date
+
+def homeScreen():
+    print(" ********************* \n","** CONTACT MANAGER ** \n")
+    print(" 1) Add a new contact")
+    print(" 2) Search for contact")
+    print(" 3) Update contact")
+    print(" 4) Delete contact")
+    print(" 5) Export contacts to text file")
+    print(" 9) Exit")
+    print("\n")
+
+def chooseScreen():
+    print(" ********************* \n","****** SUCCESS ****** \n")
+    print(" 0) Go back to home screen")
+    print(" 9) Exit")
+    print("\n")
+
+def newContact():
+    nCont = []
+    today = datetime.datetime.today()
+    year = today.year
+    month = today.month
+    day = today.day
+    today = date(year,month,day)
+    
+    firstName = input('Write your given name: ')
+    lastName = input('Write your surname: ')
+    phoneNumber = input('Write your phone number: ')
+    email = input('Write your email: ')
+    birthday = input('Enter your birthday (DDMMYYYY) : ')
+    print("\n")
+    age = year - int(birthday[4:])
+    yolo = date(int(birthday[4:]),int(birthday[2:4]),int(birthday[:2]))
+    print(today)
+    blah = today-yolo
+    print(blah.days/365)
+
+    nCont.append(firstName)
+    nCont.append(lastName)
+    nCont.append(phoneNumber)
+    nCont.append(email)
+    nCont.append(birthday)
+    contactDatabase[str(firstName)+" "+str(lastName)] = nCont
+
+    chooseScreen()
+
+def searchFunction():
+    keys = list(contactDatabase)
+    searchF = input('Please enter Full contact Name or search criteria: ')
+    print("\n")
+    try:
+        for x in keys:
+            ind = contactDatabase[x]
+            if x == searchF:
+                print("The ContactID for this person has been found")
+                print("First Name: ",contactDatabase[x][0])
+                print("Surname   : ",contactDatabase[x][1])
+                print("Phone No  : ",contactDatabase[x][2])
+                print("Email     : ",contactDatabase[x][3])
+                print("Birthday       : ",contactDatabase[x][4])
+                print("\n")  
+            for y in ind:
+                if y == searchF:
+                    print("The following contact have your search criteria: ",y)
+                    print("First Name: ",contactDatabase[x][0])
+                    print("Surname   : ",contactDatabase[x][1])
+                    print("Phone No  : ",contactDatabase[x][2])
+                    print("Email     : ",contactDatabase[x][3])
+                    print("Birthday       : ",contactDatabase[x][4])
+                    print("\n")
+        #need to display no search results
+        chooseScreen()
+        print("\n")
+    except:
+        print("Error, contact does not exist")
+        print("\n")
+        homeScreen()
+
+def searchContact():
+    searchName = input('Please enter first name and surname of whom you are looking for: ')
+    print("\n")
+    try:
+        print("First Name: ",contactDatabase[str(searchName)][0])
+        print("Surname   : ",contactDatabase[str(searchName)][1])
+        print("Phone No  : ",contactDatabase[str(searchName)][2])
+        print("Email     : ",contactDatabase[str(searchName)][3])
+        print("Birthday       : ",contactDatabase[str(searchName)][4])
+        print("\n")
+        chooseScreen()
+    except:
+        print("Error, contact does not exist")
+        print("\n")
+        homeScreen()
+
+def updateContact():
+    updateName = input('Please enter full name of whom you are updating: ')
+    print("\n")
+        
+    try:
+        temp = contactDatabase[str(updateName)]
+
+        print("What details are you updating?")
+        print(" a) Phone No")
+        print(" b) Email")
+        print(" c) Birthday")
+        updateSel = input('Please enter your selection: ')
+
+        if updateSel == "a":
+            temp.remove(temp[2])
+            newDetails = input('Please enter new Phone No: ')
+            temp.insert(2,newDetails)
+        elif updateSel == "b":
+            temp.remove(temp[3])
+            newDetails = input('Please enter new Email: ')
+            temp.insert(3,newDetails)
+        elif updateSel == "c":
+            temp.remove(temp[4])
+            newDetails = input('Please enter birthday: ')
+            temp.insert(4,newDetails)
+        else:
+            print("Error...")
+
+        print("\n")
+        contactDatabase[str(updateName)] = temp
+
+        print("Updated Contact Details are: ")
+        print("First Name: ",contactDatabase[str(updateName)][0])
+        print("Surname   : ",contactDatabase[str(updateName)][1])
+        print("Phone No  : ",contactDatabase[str(updateName)][2])
+        print("Email     : ",contactDatabase[str(updateName)][3])
+        print("Birthday       : ",contactDatabase[str(updateName)][4])
+        print("\n")
+        chooseScreen()
+        
+    except:
+        print("Error, contact does not exist")
+        print("\n")
+        homeScreen()
+
+def deleteContact():
+    key = input('Please enter contact to delete: ')
+    print("\n")
+    try:
+        #Need to add logic to compare with existing database to see if contact exists
+        del contactDatabase[str(key)]
+        print("\n")
+        chooseScreen()
+    except:
+        print("Error, contact does not exist")
+        print("\n")
+        homeScreen()
+
+def printContacts():
+    keys = list(contactDatabase)
+    f = open("MCL.txt","w") #opens file with name of "MCL.txt"
+    for x in keys:
+        ind = contactDatabase[x]
+        f.write("ContactID: ")
+        f.write(x)
+        f.write("\n")
+        for y in ind:
+            f.write(y)
+            f.write("\n")
+        f.write("\n")
+    f.close()
+    print("\n")
+    chooseScreen()
+
+#---------------------------------------------------------------------
+contactDatabase = {}
+homeScreen()
+
+while 1==1:
+    
+    selection = input('Please enter your selection: ')
+    print("\n")
+
+    if selection == "1":
+        newContact()
+    elif selection == "2":
+        searchFunction()
+    elif selection == "3":
+        updateContact()
+    elif selection == "4":
+        deleteContact()
+    elif selection == "5":
+        printContacts()
+    elif selection == "9":
+        print("Now exiting...")
+        break
+    elif selection == "0":
+        homeScreen()
+    else:
+        print("Error... Please enter a correct selection")
+
