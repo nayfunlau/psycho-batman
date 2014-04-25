@@ -1,0 +1,96 @@
+
+def homeScreen():
+    print(" ********************* \n","** CONTACT MANAGER ** \n")
+    print(" 1) Add a new contact")
+    print(" 2) Search for contact")
+    print(" 3) Update contact")
+    print(" 4) Delete contact")
+    print(" 5) Print contacts")
+    print(" 9) Exit")
+    print("\n")
+
+def chooseScreen():
+    print(" ********************* \n","****** SUCCESS ****** \n")
+    print(" 0) Go back to home screen")
+    print(" 9) Exit")
+    print("\n")
+
+def newContact():
+    nCont = []
+    firstName = input('Write your given name: ')
+    lastName = input('Write your surname: ')
+    phoneNumber = input('Write your phone number: ')
+    email = input('Write your email: ')
+    age = input('Enter your age: ')
+    print("\n")
+
+    nCont.append(firstName)
+    nCont.append(lastName)
+    nCont.append(phoneNumber)
+    nCont.append(email)
+    nCont.append(age)
+    contactDatabase[str(firstName)] = nCont
+
+    chooseScreen()
+
+def searchContact():
+    searchName = input('Please enter first name of whom you are looking for: ')
+    print("\n")
+    print("First Name: ",contactDatabase[str(searchName)][0])
+    print("Surname   : ",contactDatabase[str(searchName)][1])
+    print("Phone No  : ",contactDatabase[str(searchName)][2])
+    print("Email     : ",contactDatabase[str(searchName)][3])
+    print("Age       : ",contactDatabase[str(searchName)][4])
+    print("\n")
+    
+    chooseScreen()
+
+def updateContact():
+    print("Unavailable")
+    homeScreen()
+
+def deleteContact():
+    key = input('Please enter contact to delete: ')
+    print("\n")
+    for key, item in contactDatabase.items():
+        if item == key:
+            del contactDatabase[str(key)]
+    print("\n")
+    homeScreen()
+
+def printContacts():
+    print(contactDatabase)
+    f = open("MCL.txt","w") #opens file with name of "MCL.txt"
+    for flag in range(0,len(contactDatabase)+1):
+        f.write(str(contactDatabase)[flag])
+    print("\n")
+    homeScreen()
+
+#---------------------------------------------------------------------
+contactDatabase = {}
+homeScreen()
+
+while 1==1:
+    
+    selection = input('Please enter your selection: ')
+    selection = int(selection)
+
+    if selection == 1:
+        newContact()
+    elif selection == 2:
+        searchContact()
+    elif selection == 3:
+        updateContact()
+    elif selection == 4:
+        deleteContact()
+    elif selection == 5:
+        printContacts()
+    elif selection == 9:
+        print("Now exiting...")
+        break
+    elif selection ==0:
+        homeScreen()
+    else:
+        print("Error...")
+
+
