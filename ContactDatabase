@@ -34,10 +34,6 @@ def newContact():
     birthday = input('Enter your birthday (DDMMYYYY) : ')
     print("\n")
     age = year - int(birthday[4:])
-    yolo = date(int(birthday[4:]),int(birthday[2:4]),int(birthday[:2]))
-    print(today)
-    blah = today-yolo
-    print(blah.days/365)
 
     nCont.append(firstName)
     nCont.append(lastName)
